@@ -30,7 +30,7 @@ const pug2html = module.exports = function pug2html() {
 };
 		
 const styles = module.exports = function styles() {
-	return gulp.src('app/sass/**/*.sass')
+	return gulp.src(['app/sass/**/*.sass', 'app/sass/**/*.scss'])
 	.pipe(plumber())
 	.pipe(sass().on('error', sass.logError))
 	.pipe(rename({suffix: '.min', prefix: ''}))
