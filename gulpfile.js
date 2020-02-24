@@ -11,15 +11,14 @@ const 	gulp = require('gulp'),
 		csso = require('gulp-csso'),
 		imagemin = require('gulp-imagemin'),
 		uglify = require('gulp-uglify-es').default,
-		imageminMozjpeg = require('imagemin-mozjpeg'),
 		plumber = require('gulp-plumber'),
 		server = require('browser-sync').create();	
 	
-const clean = module.exports = function clean() {
+const clean = function() {
 	return del('dist');
 };
 
-const pug2html = module.exports = function pug2html() {
+const pug2html = function() {
 	return gulp.src('app/**/*.pug')
 	.pipe(plumber())
 	.pipe(pug({
@@ -28,8 +27,8 @@ const pug2html = module.exports = function pug2html() {
 	.pipe(gulpHtmlBemValidator())
 	.pipe(gulp.dest('./dist/'));
 };
-		
-const styles = module.exports = function styles() {
+
+const styles = function() {
 	return gulp.src(['app/sass/**/*.sass', 'app/sass/**/*.scss'])
 	.pipe(plumber())
 	.pipe(sass().on('error', sass.logError))
@@ -42,7 +41,7 @@ const styles = module.exports = function styles() {
 	.pipe(gulp.dest('dist/css'));
 };
 
-const scripts = module.exports = function scripts() {
+const scripts = function() {
 	return gulp.src('app/js/*.js')
 	.pipe(plumber())
 	.pipe(babel({
@@ -53,7 +52,7 @@ const scripts = module.exports = function scripts() {
 	.pipe(gulp.dest('dist/js'));
 };
 
-const scriptsConcat = module.exports = function scriptsConcat() {
+const scriptsConcat = function() {
 	return gulp.src('app/libs/**/*.js')
 	.pipe(babel({
 		presets: ['@babel/env']
@@ -63,7 +62,7 @@ const scriptsConcat = module.exports = function scriptsConcat() {
 	.pipe(gulp.dest('dist/js'));
 };
 
-const compress = module.exports = function compress() {
+const compress = function() {
 	return gulp.src('app/img/*')
 	.pipe(imagemin([
 		imagemin.gifsicle({ interlaced: true }),
@@ -82,12 +81,15 @@ const compress = module.exports = function compress() {
 	.pipe(gulp.dest('dist/img/'))
 };
 
-const copyFonts = module.exports = async function copyFonts() {
-	return gulp.src('app/fonts/*/**')   
-	.pipe(gulp.dest('dist/fonts'));
-};
+// module.exports = copyFonts = async function() {
+// 	let fontAwesome = gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*')
+// 		.pipe(gulp.dest('dist/fonts/font-awesome/webfonts/'));	
 
-const serverFunc = module.exports = function serverFunc() {
+// 	let fonts = gulp.src('app/fonts/*/**')   
+// 		.pipe(gulp.dest('dist/fonts'));
+// };
+
+let serverFunc = function() {
 	server.init({
 		server: "dist",
 		notify: false,
@@ -100,7 +102,7 @@ const serverFunc = module.exports = function serverFunc() {
 	gulp.watch('build/*.html').on('change', server.reload);
 };
 
-const dev = gulp.parallel( pug2html, styles, scriptsConcat, scripts, compress, copyFonts)
+const dev = gulp.parallel( pug2html, styles, scriptsConcat, scripts, compress)
 
 const build = gulp.series(clean, dev)
 
