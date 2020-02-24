@@ -27,9 +27,9 @@ const pug2html = function() {
 	.pipe(gulpHtmlBemValidator())
 	.pipe(gulp.dest('./dist/'));
 };
-		
+
 const styles = function() {
-	return gulp.src('app/sass/**/*.sass')
+	return gulp.src(['app/sass/**/*.sass', 'app/sass/**/*.scss'])
 	.pipe(plumber())
 	.pipe(sass().on('error', sass.logError))
 	.pipe(rename({suffix: '.min', prefix: ''}))
