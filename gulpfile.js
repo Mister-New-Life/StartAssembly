@@ -81,13 +81,10 @@ const compress = function() {
 	.pipe(gulp.dest('dist/img/'))
 };
 
-// module.exports = copyFonts = async function() {
-// 	let fontAwesome = gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*')
-// 		.pipe(gulp.dest('dist/fonts/font-awesome/webfonts/'));	
-
-// 	let fonts = gulp.src('app/fonts/*/**')   
-// 		.pipe(gulp.dest('dist/fonts'));
-// };
+let copyFonts = function() {
+	return gulp.src('app/fonts/*/**')   
+	.pipe(gulp.dest('dist/fonts'));
+};
 
 let serverFunc = function() {
 	server.init({
@@ -102,7 +99,7 @@ let serverFunc = function() {
 	gulp.watch('build/*.html').on('change', server.reload);
 };
 
-const dev = gulp.parallel( pug2html, styles, scriptsConcat, scripts, compress)
+const dev = gulp.parallel( pug2html, styles, scriptsConcat, scripts, compress, copyFonts)
 
 const build = gulp.series(clean, dev)
 
