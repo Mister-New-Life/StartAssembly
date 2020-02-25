@@ -81,12 +81,12 @@ const compress = function() {
 	.pipe(gulp.dest('dist/img/'))
 };
 
-let copyFonts = function() {
+const copyFonts = function() {
 	return gulp.src('app/fonts/*/**')   
 	.pipe(gulp.dest('dist/fonts'));
 };
 
-let serverFunc = function() {
+const serverFunc = function() {
 	server.init({
 		server: "dist",
 		notify: false,
